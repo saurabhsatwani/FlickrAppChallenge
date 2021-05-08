@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="86n-qE-qnZ">
-                                <rect key="frame" x="0.0" y="74" width="414" height="700"/>
+                                <rect key="frame" x="0.0" y="54" width="414" height="720"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="UCG-oh-GWg">
                                     <size key="itemSize" width="200" height="200"/>
@@ -26,7 +26,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <activityIndicatorView key="backgroundView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" id="xmz-bj-5Gs">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="720"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <cells>
@@ -65,7 +65,7 @@
                             <constraint firstItem="lqi-XW-Xyq" firstAttribute="trailing" secondItem="BbN-k0-5kO" secondAttribute="trailing" constant="20" id="IJ3-Ss-2Yp"/>
                             <constraint firstItem="86n-qE-qnZ" firstAttribute="bottom" secondItem="lqi-XW-Xyq" secondAttribute="bottom" id="Ni6-f0-xd5"/>
                             <constraint firstItem="86n-qE-qnZ" firstAttribute="leading" secondItem="lqi-XW-Xyq" secondAttribute="leading" id="SdG-4Y-0Ly"/>
-                            <constraint firstItem="86n-qE-qnZ" firstAttribute="top" secondItem="BbN-k0-5kO" secondAttribute="bottom" constant="20" id="cjH-cS-uGE"/>
+                            <constraint firstItem="86n-qE-qnZ" firstAttribute="top" secondItem="BbN-k0-5kO" secondAttribute="bottom" id="cjH-cS-uGE"/>
                             <constraint firstItem="BbN-k0-5kO" firstAttribute="top" secondItem="lqi-XW-Xyq" secondAttribute="top" constant="20" id="gbr-v7-ngF"/>
                             <constraint firstItem="BbN-k0-5kO" firstAttribute="leading" secondItem="lqi-XW-Xyq" secondAttribute="leading" constant="20" id="i80-Rh-ndN"/>
                             <constraint firstItem="lqi-XW-Xyq" firstAttribute="trailing" secondItem="86n-qE-qnZ" secondAttribute="trailing" id="qBn-zu-aYy"/>

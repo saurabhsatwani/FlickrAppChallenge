@@ -37,6 +37,7 @@ final class FlickerCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.view.backgroundColor = UIColor.white
         bindViewModel()
     }
     

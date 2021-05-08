@@ -40,7 +40,6 @@ class AppServiceTests: XCTestCase {
         dataTask.resume()
         wait(for: [promise], timeout: 5)
         
-        // then
         XCTAssertNil(responseError)
         XCTAssertEqual(statusCode, 200)
     }
