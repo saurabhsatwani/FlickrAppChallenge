@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0924C1E32647A84400A003BC /* CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0924C1E12647A84400A003BC /* CollectionReusableView.swift */; };
+		0924C1E42647A84400A003BC /* CollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0924C1E22647A84400A003BC /* CollectionReusableView.xib */; };
+		0924C1E72647FC4D00A003BC /* MockPhoto.json in Resources */ = {isa = PBXBuildFile; fileRef = 0924C1E62647FA3A00A003BC /* MockPhoto.json */; };
+		0924C1E92647FC8400A003BC /* MockPhoto.json in Resources */ = {isa = PBXBuildFile; fileRef = 0924C1E62647FA3A00A003BC /* MockPhoto.json */; };
+		0924C1EA2647FD7100A003BC /* MockPhoto.json in Resources */ = {isa = PBXBuildFile; fileRef = 0924C1E62647FA3A00A003BC /* MockPhoto.json */; };
 		09267EF62646D8270061CDFB /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09267EF52646D8270061CDFB /* Alert.swift */; };
 		09267EF82646E00E0061CDFB /* AlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09267EF72646E00E0061CDFB /* AlertTests.swift */; };
 		09267EFB2646E0880061CDFB /* AppServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09267EFA2646E0880061CDFB /* AppServiceTests.swift */; };
@@ -26,6 +31,7 @@
 		094EF5B62645C06A00BDE52C /* FlickrViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094EF5B52645C06A00BDE52C /* FlickrViewModel.swift */; };
 		094EF5B82645C08D00BDE52C /* FlickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094EF5B72645C08D00BDE52C /* FlickerCollectionViewController.swift */; };
 		094EF5BC2645CBCE00BDE52C /* FlickrPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094EF5BB2645CBCE00BDE52C /* FlickrPhotoCell.swift */; };
+		095630F0264801E7005E3E97 /* FlickerCollectionViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095630EF264801E7005E3E97 /* FlickerCollectionViewControllerTests.swift */; };
 		09A3F53C26468A0500E727A0 /* PhotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3F53B26468A0500E727A0 /* PhotoTests.swift */; };
 		09A3F53F26468F7D00E727A0 /* BindableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3F53E26468F7D00E727A0 /* BindableTests.swift */; };
 		09A3F5422646903300E727A0 /* FlickerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3F5412646903300E727A0 /* FlickerViewModelTests.swift */; };
@@ -49,6 +55,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0924C1E12647A84400A003BC /* CollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableView.swift; sourceTree = "<group>"; };
+		0924C1E22647A84400A003BC /* CollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionReusableView.xib; sourceTree = "<group>"; };
+		0924C1E62647FA3A00A003BC /* MockPhoto.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockPhoto.json; sourceTree = "<group>"; };
 		09267EF52646D8270061CDFB /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		09267EF72646E00E0061CDFB /* AlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTests.swift; sourceTree = "<group>"; };
 		09267EFA2646E0880061CDFB /* AppServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceTests.swift; sourceTree = "<group>"; };
@@ -74,6 +83,7 @@
 		094EF5B52645C06A00BDE52C /* FlickrViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrViewModel.swift; sourceTree = "<group>"; };
 		094EF5B72645C08D00BDE52C /* FlickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickerCollectionViewController.swift; sourceTree = "<group>"; };
 		094EF5BB2645CBCE00BDE52C /* FlickrPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrPhotoCell.swift; sourceTree = "<group>"; };
+		095630EF264801E7005E3E97 /* FlickerCollectionViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickerCollectionViewControllerTests.swift; sourceTree = "<group>"; };
 		09A3F53B26468A0500E727A0 /* PhotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTests.swift; sourceTree = "<group>"; };
 		09A3F53E26468F7D00E727A0 /* BindableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindableTests.swift; sourceTree = "<group>"; };
 		09A3F5412646903300E727A0 /* FlickerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickerViewModelTests.swift; sourceTree = "<group>"; };
@@ -104,6 +114,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0924C1E52647FA0D00A003BC /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				0924C1E62647FA3A00A003BC /* MockPhoto.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		09267EF92646E0570061CDFB /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +172,8 @@
 		094EF58A2645AC8000BDE52C /* DeservFlickerChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
+				095630EE264801CC005E3E97 /* View */,
+				0924C1E52647FA0D00A003BC /* JSON */,
 				09267EF92646E0570061CDFB /* Network */,
 				09A3F5402646901300E727A0 /* ViewModel */,
 				09A3F53D26468F6F00E727A0 /* Helpers */,
@@ -229,8 +249,18 @@
 			isa = PBXGroup;
 			children = (
 				094EF5BB2645CBCE00BDE52C /* FlickrPhotoCell.swift */,
+				0924C1E12647A84400A003BC /* CollectionReusableView.swift */,
+				0924C1E22647A84400A003BC /* CollectionReusableView.xib */,
 			);
 			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		095630EE264801CC005E3E97 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				095630EF264801E7005E3E97 /* FlickerCollectionViewControllerTests.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		09A3F53A264689CF00E727A0 /* Model */ = {
@@ -362,7 +392,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0924C1E92647FC8400A003BC /* MockPhoto.json in Resources */,
 				094EF5812645AC7F00BDE52C /* LaunchScreen.storyboard in Resources */,
+				0924C1E42647A84400A003BC /* CollectionReusableView.xib in Resources */,
 				094EF57E2645AC7F00BDE52C /* Assets.xcassets in Resources */,
 				094EF5792645AC7600BDE52C /* Main.storyboard in Resources */,
 			);
@@ -372,6 +404,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0924C1E72647FC4D00A003BC /* MockPhoto.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +412,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0924C1EA2647FD7100A003BC /* MockPhoto.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +426,7 @@
 				094EF5AB2645B04800BDE52C /* Photo.swift in Sources */,
 				094EF5722645AC7600BDE52C /* AppDelegate.swift in Sources */,
 				094EF5A82645AFCC00BDE52C /* JSON.swift in Sources */,
+				0924C1E32647A84400A003BC /* CollectionReusableView.swift in Sources */,
 				094EF5AE2645B1CF00BDE52C /* AppService.swift in Sources */,
 				094EF5BC2645CBCE00BDE52C /* FlickrPhotoCell.swift in Sources */,
 				094EF5B82645C08D00BDE52C /* FlickerCollectionViewController.swift in Sources */,
@@ -408,6 +443,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				095630F0264801E7005E3E97 /* FlickerCollectionViewControllerTests.swift in Sources */,
 				09A3F53C26468A0500E727A0 /* PhotoTests.swift in Sources */,
 				09267EFB2646E0880061CDFB /* AppServiceTests.swift in Sources */,
 				09267EF82646E00E0061CDFB /* AlertTests.swift in Sources */,

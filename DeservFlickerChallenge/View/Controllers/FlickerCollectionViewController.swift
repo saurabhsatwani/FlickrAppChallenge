@@ -24,21 +24,42 @@ final class FlickerCollectionViewController: UIViewController {
     private let reuseIdentifier = "FlickrCell"
     private let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
     private let itemsPerRow: CGFloat = 3
-    var viewModel = FlickrViewModel()
-    
-    private let cache = NSCache<NSNumber, UIImage>()
+    private var cache = NSCache<Photo, UIImage>()
+    private var dict = [Int:UIImage]()
     private let utilityQueue = DispatchQueue.global(qos: .utility)
+    private var isLoading = false
+    private var searchText = ""
+    private var dataSourceArray = [Photo]()
+    private var pageIndex = 1
+
     
+    var viewModel = FlickrViewModel()
+    var loadingView: CollectionReusableView?
+
     @IBOutlet weak var searchTextField: UITextField! {
         didSet {
             searchTextField.delegate = self
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.view.backgroundColor = UIColor.white
+        setupNavigationBar()
+        registerCells()
         bindViewModel()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        print("warning recieved")
+    }
+    
+    fileprivate func registerCells() {
+        let loadingReusableNib = UINib(nibName: "CollectionReusableView", bundle: nil)
+        collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "loadingResusableView")
+    }
+    
+    fileprivate func setupNavigationBar() {
+        navigationController?.view.backgroundColor = UIColor.white
     }
     
     func bindViewModel() {
@@ -54,29 +75,52 @@ final class FlickerCollectionViewController: UIViewController {
             }
         }
         
+        
+        viewModel.retrievedPhotos.bind { [weak self] resultArray in
+            self?.dataSourceArray += resultArray
+            self?.isLoading = false
+            DispatchQueue.main.async {
+                self?.collectionView?.reloadData()
+            }
+        }
+        
+        
         viewModel.flickrImage.bind { [weak self] (flickrImage) in
             
-            guard let index = flickrImage.imageIndex else {return}
+            guard let photoObj = flickrImage.photoObject else {return}
             
             guard let data = flickrImage.imageData else {
                 let image = UIImage(named: "placeholder") ?? UIImage()
-                self?.cache.removeObject(forKey: index)
-                self?.cache.setObject(image, forKey: index)
+                if (self?.cache.object(forKey: photoObj)) != nil {
+                    self?.cache.removeObject(forKey: photoObj)
+                }
+                self?.cache.setObject(image, forKey: photoObj)
                 return
             }
             
             guard let image = UIImage(data: data) else {return}
-            self?.cache.removeObject(forKey: index)
-            self?.cache.setObject(image, forKey: index)
+            if (self?.cache.object(forKey: photoObj)) != nil {
+                self?.cache.removeObject(forKey: photoObj)
+            }
+            self?.cache.setObject(image, forKey: photoObj)
             
+           let index = self?.dataSourceArray.firstIndex(where: {$0 === photoObj})
             DispatchQueue.main.async {
-                self?.collectionView.reloadItems(at: [IndexPath(item: Int(truncating: index), section: 0)])
+                self?.collectionView.reloadItems(at: [IndexPath(item: index ?? 0, section: 0)])
             }
         }
         
         viewModel.onShowError = { [weak self] alert in
             DispatchQueue.main.async {
                 self?.presentSingleButtonDialog(alert: alert)
+            }
+        }
+        
+        viewModel.onResetView = { [weak self] in
+            self?.pageIndex = 1
+            self?.dataSourceArray.removeAll()
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
             }
         }
     }
@@ -90,7 +134,6 @@ final class FlickerCollectionViewController: UIViewController {
                                                 handler: { _ in alert.action.handler?() }))
         self.present(alertController, animated: true, completion: nil)
     }
-
 }
 
 // MARK: - UITextFieldDelegate
@@ -101,9 +144,8 @@ extension FlickerCollectionViewController: UITextFieldDelegate {
             !text.isEmpty
             else { return true }
         
-        viewModel.deleteAllEntries()
-        cache.removeAllObjects()
-        
+        searchText = text
+        viewModel.resetAll()
         viewModel.getflickrImages(for: text) 
         
         textField.text = nil
@@ -120,7 +162,7 @@ extension FlickerCollectionViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return viewModel.searches.value.searchResults?.count ?? 0
+        return dataSourceArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -135,17 +177,55 @@ extension FlickerCollectionViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         
-        guard let cell = cell as? FlickrPhotoCell else { return }
-        let itemNumber = NSNumber(value: indexPath.item)
         
-        if let cachedImage = self.cache.object(forKey: itemNumber) {
-            print("Using a cached image for item: \(itemNumber)")
-            cell.imageView.image = cachedImage
+        if indexPath.row == dataSourceArray.count-10 && !self.isLoading {
+            self.isLoading = true
+            viewModel.getflickrImages(for: searchText, pageIndex: pageIndex+1)
+        }
+        
+        
+        guard let cell = cell as? FlickrPhotoCell else { return }
+        let photoObj = dataSourceArray[indexPath.item]
+
+        
+        
+        if self.cache.object(forKey: photoObj) != nil {
+            print("Using a cached image for item: \(photoObj)")
+            cell.imageView.image = cache.object(forKey: photoObj)
         } else {
-            let photo = self.viewModel.searches.value.searchResults?[indexPath.row]
             utilityQueue.async {
-                self.viewModel.loadImage(at: itemNumber, for: photo?.flickrImageURLString)
+                self.viewModel.loadImage(for: photoObj)
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if self.isLoading {
+            return CGSize.zero
+        } else {
+            return CGSize(width: collectionView.bounds.size.width, height: 55)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "loadingResusableView", for: indexPath) as! CollectionReusableView
+            loadingView = aFooterView
+            loadingView?.backgroundColor = UIColor.clear
+            return aFooterView
+        }
+        return UICollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        if dataSourceArray.count > 0 && elementKind == UICollectionView.elementKindSectionFooter {
+            self.loadingView?.activityIndicatorView.startAnimating()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == UICollectionView.elementKindSectionFooter {
+            self.loadingView?.activityIndicatorView.stopAnimating()
         }
     }
     

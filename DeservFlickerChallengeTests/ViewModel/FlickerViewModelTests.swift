@@ -25,28 +25,31 @@ class FlickrViewModelTests: XCTestCase {
     }
     
     func testGetFlickrImage() {
+        
+        let expection = expectation(description: "Get Flickr API is called")
         viewModel?.getflickrImages(for: "test")
-        let searchResult = viewModel?.searches.value
+        expection.fulfill()
+
+
+        let photoArray = viewModel?.retrievedPhotos.value
         
-        XCTAssertEqual(searchResult?.searchResults?.count, 1)
-        XCTAssertEqual(searchResult?.searchResults?.first?.owner, "Saurabh")
+        XCTAssertEqual(photoArray?.count, 1)
+        XCTAssertEqual(photoArray?.first?.owner, "8740272@N04")
         
-        return
+        waitForExpectations(timeout: 3.0, handler: nil)
     }
     
     func testLoadImage() {
-        let appServerClient = MockAppServerClient()
         
-        let viewModel = FlickrViewModel(appServerClient: appServerClient)
-        viewModel.loadImage(at: NSNumber(integerLiteral: 1), for: "https://picsum.photos/200")
+        let photoModel = Photo.createFromJSON()
+
+        let expection = expectation(description: "Load Image is called")
+        viewModel?.loadImage(for: photoModel)
+        expection.fulfill()
         
-        let expectListenerCalled = expectation(description: "Load Image is called")
-        viewModel.loadImage(at: NSNumber(integerLiteral: 1), for: "https://picsum.photos/200")
-        expectListenerCalled.fulfill()
+        XCTAssertNotNil(viewModel?.flickrImage.value.imageData)
         
-        XCTAssertNotNil(viewModel.flickrImage.value.imageData)
-        
-        waitForExpectations(timeout: 1.0, handler: nil)
+        waitForExpectations(timeout: 3.0, handler: nil)
     }
     
     func testDeleteAllEntries() {
@@ -58,9 +61,25 @@ class FlickrViewModelTests: XCTestCase {
 
 private final class MockAppServerClient: AppService {
     
-    override func searchFlickr(for searchTerm: String, completion: @escaping (Result<FlickrSearchResults, FlickrError>) -> Void) {
-        completion(.success(FlickrSearchResults(searchTerm: "Test", searchResults: [Photo(id: nil, owner: "Saurabh", secret: nil, farm: nil, server: nil, title: nil, ispublic: nil, isfriend: nil, isfamily: nil)])))
+    override  func searchFlickr(for searchTerm: String, pageIndex: Int, completion: @escaping (Result<FlickrSearchResults, FlickrError>) -> Void)  {
+        completion(.success(FlickrSearchResults(searchTerm: "Test", searchResults: [Photo.createFromJSON()!])))
     }
-    
-    
 }
+
+extension Photo {
+    
+    static func createFromJSON(_ fileName: String = "MockPhoto") -> Photo? {
+        var data = Data()
+        let url = Bundle.main.url(forResource: fileName, withExtension: "json")
+        do {
+            data = try Data(contentsOf: url!)
+            return try? JSONDecoder().decode(Photo.self, from: data)
+        } catch let error {
+            debugPrint(error)
+            return nil
+        }
+    }
+}
+
+
+

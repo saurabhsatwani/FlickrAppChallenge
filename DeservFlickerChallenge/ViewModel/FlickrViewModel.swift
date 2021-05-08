@@ -12,7 +12,9 @@ class FlickrViewModel {
         
     let showLoadingHud: Bindable = Bindable(false)
     let searches = Bindable(FlickrSearchResults(searchTerm: nil, searchResults: nil))
-    let flickrImage = Bindable(FlickrImage(imageIndex:nil, imageData: nil))
+    let retrievedPhotos = Bindable([Photo]())
+    var onResetView: (()->Void)?
+    let flickrImage = Bindable(FlickrImage(photoObject:nil, imageData: nil))
     var onShowError: ((_ alert: SingleButtonAlert) -> Void)?
     
     let appServerClient: AppService
@@ -21,11 +23,11 @@ class FlickrViewModel {
         self.appServerClient = appServerClient
     }
     
-    func getflickrImages(for text: String) {
+    func getflickrImages(for text: String, pageIndex: Int = 1) {
         showLoadingHud.value = true
         
         
-        appServerClient.searchFlickr(for: text) { [weak self] searchResults in
+        appServerClient.searchFlickr(for: text, pageIndex: pageIndex) { [weak self] searchResults in
             self?.showLoadingHud.value = false
             
             switch searchResults {
@@ -46,29 +48,37 @@ class FlickrViewModel {
                     )
                     self?.onShowError?(okAlert)
                 }
-                self?.searches.value = results
+                self?.retrievedPhotos.value = results.searchResults ?? []
             }
         }
     }
     
     func deleteAllEntries() {
         self.searches.value = FlickrSearchResults(searchTerm: nil, searchResults: nil)
+        self.retrievedPhotos.value = []
+        self.onResetView?()
     }
     
-    func loadImage(at index: NSNumber?, for urlString: String?) {
+    func resetAll() {
+        self.searches.value = FlickrSearchResults(searchTerm: nil, searchResults: nil)
+        self.retrievedPhotos.value = []
+        self.onResetView?()
+    }
+    
+    func loadImage(for photoObj: Photo?) {
         
-        guard let urlString = urlString,
+        guard let urlString = photoObj?.flickrImageURLString,
             let url = URL(string: urlString) else {
-                self.flickrImage.value = FlickrImage(imageIndex: index, imageData: nil)
+                self.flickrImage.value = FlickrImage(photoObject: photoObj, imageData: nil)
                 return
         }
         
         guard let data = try? Data(contentsOf: url) else {
-            self.flickrImage.value = FlickrImage(imageIndex: index, imageData: nil)
+            self.flickrImage.value = FlickrImage(photoObject: photoObj, imageData: nil)
             return
         }
         
-        self.flickrImage.value = FlickrImage(imageIndex: index, imageData: data)
+        self.flickrImage.value = FlickrImage(photoObject: photoObj, imageData: data)
     }
 }
 

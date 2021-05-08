@@ -20,9 +20,9 @@ class AppService {
     
     let apiKey = "2932ade8b209152a7cbb49b631c4f9b6"
     
-    func searchFlickr(for searchTerm: String, completion: @escaping (Result<FlickrSearchResults, FlickrError>) -> Void) {
+    func searchFlickr(for searchTerm: String, pageIndex: Int, completion: @escaping (Result<FlickrSearchResults, FlickrError>) -> Void) {
         
-        guard let searchURL = flickrSearchURL(for: searchTerm) else {
+        guard let searchURL = flickrSearchURL(for: searchTerm, pageIndex: pageIndex) else {
             completion(.failure(FlickrError.unknownAPIResponse))
             return
         }
@@ -80,12 +80,12 @@ class AppService {
         .resume()
     }
         
-    func flickrSearchURL(for searchTerm: String) -> URL? {
+    func flickrSearchURL(for searchTerm: String,pageIndex: Int) -> URL? {
         guard let escapedTerm = searchTerm.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) else {
             return nil
         }
         
-        let URLString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&text=\(escapedTerm)&format=json&nojsoncallback=1"
+        let URLString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&text=\(escapedTerm)&format=json&nojsoncallback=1&page=\(pageIndex)"
         return URL(string: URLString)
     }
 }

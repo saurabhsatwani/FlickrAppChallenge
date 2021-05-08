@@ -22,7 +22,7 @@ struct PhotoDetail: Codable {
     let photo: [Photo]?
 }
 
-struct Photo: Codable {
+ class Photo: Codable {
     let id: String?
     let owner: String?
     let secret: String?
@@ -32,10 +32,12 @@ struct Photo: Codable {
     let ispublic: Int?
     let isfriend: Int?
     let isfamily: Int?
+    var isValid: Bool?
+    
 }
 
 extension Photo {
-    
+    @objc
     var flickrImageURLString: String? {
         guard let farm = farm,
             let server = server,

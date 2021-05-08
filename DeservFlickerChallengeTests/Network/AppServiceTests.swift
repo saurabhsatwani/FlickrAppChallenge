@@ -26,7 +26,7 @@ class AppServiceTests: XCTestCase {
         var statusCode: Int?
         var responseError: Error?
         
-        guard let searchURL = appService?.flickrSearchURL(for: "test") else {
+        guard let searchURL = appService?.flickrSearchURL(for: "test", pageIndex: 1) else {
             return
         }
         
@@ -51,7 +51,7 @@ class AppServiceTests: XCTestCase {
         
         let promise = expectation(description: "Flickr API method called")
         
-        appService?.searchFlickr(for: "test", completion: { searchResults in
+        appService?.searchFlickr(for: "test", pageIndex: 1, completion: { searchResults in
             switch searchResults {
             case .failure(let error) :
                 flickrError = error

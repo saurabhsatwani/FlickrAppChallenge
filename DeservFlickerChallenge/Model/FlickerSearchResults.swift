@@ -15,6 +15,6 @@ struct FlickrSearchResults {
 }
 
 struct FlickrImage {
-    let imageIndex: NSNumber?
+    let photoObject: Photo?
     let imageData: Data?
 }
