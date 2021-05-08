@@ -9,16 +9,11 @@
 import Foundation
 
 class FlickrViewModel {
-    
-    enum FlickrImageTableViewCellType {
-        case normal(cellViewModel: FlickrSearchResults)
-        case error(message: String)
-        case empty
-    }
-    
+        
     let showLoadingHud: Bindable = Bindable(false)
     let searches = Bindable(FlickrSearchResults(searchTerm: nil, searchResults: nil))
     let flickrImage = Bindable(FlickrImage(imageIndex:nil, imageData: nil))
+    var onShowError: ((_ alert: SingleButtonAlert) -> Void)?
     
     let appServerClient: AppService
     
@@ -30,14 +25,28 @@ class FlickrViewModel {
         showLoadingHud.value = true
         
         
-        appServerClient.searchFlickr(for: text) { searchResults in
-            self.showLoadingHud.value = false
+        appServerClient.searchFlickr(for: text) { [weak self] searchResults in
+            self?.showLoadingHud.value = false
             
             switch searchResults {
             case .failure(let error) :
                 print("Error Searching: \(error)")
+                let okAlert = SingleButtonAlert(
+                    title: "Error",
+                    message: error.rawValue,
+                    action: AlertAction(buttonTitle: "OK", handler: { print("Ok pressed!") })
+                )
+                self?.onShowError?(okAlert)
             case .success(let results):
-                self.searches.value = results
+                if results.searchResults?.count == 0 {
+                    let okAlert = SingleButtonAlert(
+                        title: "Please try again",
+                        message: "Could not find any entry for \(results.searchTerm ?? "")",
+                        action: AlertAction(buttonTitle: "OK", handler: { print("Ok pressed!") })
+                    )
+                    self?.onShowError?(okAlert)
+                }
+                self?.searches.value = results
             }
         }
     }

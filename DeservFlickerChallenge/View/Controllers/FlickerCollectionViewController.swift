@@ -72,7 +72,24 @@ final class FlickerCollectionViewController: UIViewController {
                 self?.collectionView.reloadItems(at: [IndexPath(item: Int(truncating: index), section: 0)])
             }
         }
+        
+        viewModel.onShowError = { [weak self] alert in
+            DispatchQueue.main.async {
+                self?.presentSingleButtonDialog(alert: alert)
+            }
+        }
     }
+    
+    func presentSingleButtonDialog(alert: SingleButtonAlert) {
+        let alertController = UIAlertController(title: alert.title,
+                                                message: alert.message,
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: alert.action.buttonTitle,
+                                                style: .default,
+                                                handler: { _ in alert.action.handler?() }))
+        self.present(alertController, animated: true, completion: nil)
+    }
+
 }
 
 // MARK: - UITextFieldDelegate
@@ -85,7 +102,7 @@ extension FlickerCollectionViewController: UITextFieldDelegate {
         
         viewModel.deleteAllEntries()
         cache.removeAllObjects()
-                
+        
         viewModel.getflickrImages(for: text) 
         
         textField.text = nil
@@ -97,7 +114,7 @@ extension FlickerCollectionViewController: UITextFieldDelegate {
 
 // MARK: - UICollectionViewDataSource
 extension FlickerCollectionViewController: UICollectionViewDataSource {
-
+    
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
@@ -111,6 +128,7 @@ extension FlickerCollectionViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension FlickerCollectionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
@@ -134,13 +152,13 @@ extension FlickerCollectionViewController: UICollectionViewDelegate {
 
 // MARK: - Collection View Flow Layout Delegate
 extension FlickerCollectionViewController: UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-
+        
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow

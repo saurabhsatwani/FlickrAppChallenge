@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09267EF62646D8270061CDFB /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09267EF52646D8270061CDFB /* Alert.swift */; };
+		09267EF82646E00E0061CDFB /* AlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09267EF72646E00E0061CDFB /* AlertTests.swift */; };
+		09267EFB2646E0880061CDFB /* AppServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09267EFA2646E0880061CDFB /* AppServiceTests.swift */; };
 		094EF5722645AC7600BDE52C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094EF5712645AC7600BDE52C /* AppDelegate.swift */; };
 		094EF5742645AC7600BDE52C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094EF5732645AC7600BDE52C /* SceneDelegate.swift */; };
 		094EF5792645AC7600BDE52C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094EF5772645AC7600BDE52C /* Main.storyboard */; };
@@ -46,6 +49,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09267EF52646D8270061CDFB /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		09267EF72646E00E0061CDFB /* AlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTests.swift; sourceTree = "<group>"; };
+		09267EFA2646E0880061CDFB /* AppServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceTests.swift; sourceTree = "<group>"; };
 		094EF56E2645AC7600BDE52C /* DeservFlickerChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeservFlickerChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094EF5712645AC7600BDE52C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		094EF5732645AC7600BDE52C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +104,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09267EF92646E0570061CDFB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				09267EFA2646E0880061CDFB /* AppServiceTests.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		094EF5652645AC7600BDE52C = {
 			isa = PBXGroup;
 			children = (
@@ -123,7 +137,7 @@
 			children = (
 				094EF5B42645C04400BDE52C /* ViewModel */,
 				094EF5B32645C03600BDE52C /* View */,
-				094EF5AC2645B1BD00BDE52C /* Service */,
+				094EF5AC2645B1BD00BDE52C /* Network */,
 				094EF5A92645B03E00BDE52C /* Model */,
 				094EF5A42645AF6500BDE52C /* Helpers */,
 				094EF5712645AC7600BDE52C /* AppDelegate.swift */,
@@ -140,6 +154,7 @@
 		094EF58A2645AC8000BDE52C /* DeservFlickerChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
+				09267EF92646E0570061CDFB /* Network */,
 				09A3F5402646901300E727A0 /* ViewModel */,
 				09A3F53D26468F6F00E727A0 /* Helpers */,
 				09A3F53A264689CF00E727A0 /* Model */,
@@ -163,6 +178,7 @@
 			children = (
 				094EF5A72645AFCC00BDE52C /* JSON.swift */,
 				094EF5AF2645B25C00BDE52C /* Bindable.swift */,
+				09267EF52646D8270061CDFB /* Alert.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -176,12 +192,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		094EF5AC2645B1BD00BDE52C /* Service */ = {
+		094EF5AC2645B1BD00BDE52C /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				094EF5AD2645B1CF00BDE52C /* AppService.swift */,
 			);
-			path = Service;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		094EF5B32645C03600BDE52C /* View */ = {
@@ -229,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				09A3F53E26468F7D00E727A0 /* BindableTests.swift */,
+				09267EF72646E00E0061CDFB /* AlertTests.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -378,6 +395,7 @@
 				094EF5AE2645B1CF00BDE52C /* AppService.swift in Sources */,
 				094EF5BC2645CBCE00BDE52C /* FlickrPhotoCell.swift in Sources */,
 				094EF5B82645C08D00BDE52C /* FlickerCollectionViewController.swift in Sources */,
+				09267EF62646D8270061CDFB /* Alert.swift in Sources */,
 				094EF5742645AC7600BDE52C /* SceneDelegate.swift in Sources */,
 				094EF57C2645AC7600BDE52C /* DeservFlickerChallenge.xcdatamodeld in Sources */,
 				094EF5B02645B25C00BDE52C /* Bindable.swift in Sources */,
@@ -391,6 +409,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				09A3F53C26468A0500E727A0 /* PhotoTests.swift in Sources */,
+				09267EFB2646E0880061CDFB /* AppServiceTests.swift in Sources */,
+				09267EF82646E00E0061CDFB /* AlertTests.swift in Sources */,
 				09A3F5422646903300E727A0 /* FlickerViewModelTests.swift in Sources */,
 				094EF58C2645AC8000BDE52C /* DeservFlickerChallengeTests.swift in Sources */,
 				09A3F53F26468F7D00E727A0 /* BindableTests.swift in Sources */,

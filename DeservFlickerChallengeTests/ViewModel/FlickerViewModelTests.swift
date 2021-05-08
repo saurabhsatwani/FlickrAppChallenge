@@ -24,8 +24,7 @@ class FlickrViewModelTests: XCTestCase {
         viewModel = nil
     }
     
-    func testNormalFlickrImageCell() {
-        
+    func testGetFlickrImage() {
         viewModel?.getflickrImages(for: "test")
         let searchResult = viewModel?.searches.value
         

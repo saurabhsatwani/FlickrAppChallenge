@@ -11,8 +11,9 @@ import UIKit
 
 // MARK: - AppService
 enum FlickrError: String, Error {
-    case unknownAPIResponse = "Unknown API"
-    case generic = "Generic Msg"
+    case unknownAPIResponse = "API is not supported!"
+    case generic = "Some error occured, Please try again!"
+    case dataFormat = "Data format is corrupt! "
 }
 
 class AppService {
@@ -45,7 +46,7 @@ class AppService {
                     let resultsDictionary = try JSONSerialization.jsonObject(with: data) as? [String: AnyObject],
                     let stat = resultsDictionary["stat"] as? String
                     else {
-                        completion(.failure(FlickrError.unknownAPIResponse))
+                        completion(.failure(FlickrError.dataFormat))
                         return
                 }
                 
@@ -69,7 +70,7 @@ class AppService {
                     print(flickerPhoto)
                 } catch {
                     print(error.localizedDescription)
-                    completion(.failure(FlickrError.unknownAPIResponse))
+                    completion(.failure(FlickrError.dataFormat))
                 }
             } catch {
                 completion(.failure(FlickrError.generic))
@@ -79,7 +80,7 @@ class AppService {
         .resume()
     }
         
-    private func flickrSearchURL(for searchTerm: String) -> URL? {
+    func flickrSearchURL(for searchTerm: String) -> URL? {
         guard let escapedTerm = searchTerm.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) else {
             return nil
         }
