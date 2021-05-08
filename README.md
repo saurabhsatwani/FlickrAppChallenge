@@ -1,15 +1,15 @@
-Introduction
-A Swift Project written in MVVM Architecture which fetches images from Flickr API.
+_Introduction_
+Swift Project written in MVVM Architecture which fetches images from Flickr API.
 
-Installation
+_Installation_
 Create an account or grab a new API key from Flickr API
 Replace the api key in AppService class, set your app key against appKey variable.
 Build and run!
 
-Dependecies
+_Dependecies_
 To minimize code and highlight the MVVM structure, no third party dependencies were used.
 
-Project Overview
+_Project Overview
 
 **Network**
 AppService.swift - Handles the GET Request to Fetch Image object from FlickrAPI.
