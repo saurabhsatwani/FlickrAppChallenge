@@ -24,13 +24,13 @@ final class FlickerCollectionViewController: UIViewController {
     private let reuseIdentifier = "FlickrCell"
     private let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
     private let itemsPerRow: CGFloat = 3
-    private var cache = NSCache<Photo, UIImage>()
     private var dict = [Int:UIImage]()
     private let utilityQueue = DispatchQueue.global(qos: .utility)
     private var isLoading = false
     private var searchText = ""
     private var dataSourceArray = [Photo]()
     private var pageIndex = 1
+    private var imageCache = ImageCache()
 
     
     var viewModel = FlickrViewModel()
@@ -90,27 +90,23 @@ final class FlickerCollectionViewController: UIViewController {
             guard let photoObj = flickrImage.photoObject else {return}
             
             guard let data = flickrImage.imageData else {
-                let image = UIImage(named: "placeholder") ?? UIImage()
-                if (self?.cache.object(forKey: photoObj)) != nil {
-                    self?.cache.removeObject(forKey: photoObj)
-                }
-                self?.cache.setObject(image, forKey: photoObj)
                 return
             }
             
-            guard let image = UIImage(data: data) else {return}
-            if (self?.cache.object(forKey: photoObj)) != nil {
-                self?.cache.removeObject(forKey: photoObj)
-            }
-            self?.cache.setObject(image, forKey: photoObj)
+            guard let image = UIImage(data: data),
+                  let photoURL = photoObj.flickrImageURL
+            else {return}
             
-           let index = self?.dataSourceArray.firstIndex(where: {$0 === photoObj})
+            self?.imageCache.insertImage(image, for: photoURL)
+                        
             DispatchQueue.main.async {
+                let index = self?.dataSourceArray.firstIndex(where: {$0 === photoObj})
                 self?.collectionView.reloadItems(at: [IndexPath(item: index ?? 0, section: 0)])
             }
         }
         
         viewModel.onShowError = { [weak self] alert in
+            self?.imageCache.removeAllImages()
             DispatchQueue.main.async {
                 self?.presentSingleButtonDialog(alert: alert)
             }
@@ -119,6 +115,7 @@ final class FlickerCollectionViewController: UIViewController {
         viewModel.onResetView = { [weak self] in
             self?.pageIndex = 1
             self?.dataSourceArray.removeAll()
+            self?.imageCache.removeAllImages()
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
@@ -187,12 +184,11 @@ extension FlickerCollectionViewController: UICollectionViewDelegate {
         guard let cell = cell as? FlickrPhotoCell else { return }
         let photoObj = dataSourceArray[indexPath.item]
 
-        
-        
-        if self.cache.object(forKey: photoObj) != nil {
+        if let imageURL = photoObj.flickrImageURL, let image = imageCache.image(for: imageURL) {
             print("Using a cached image for item: \(photoObj)")
-            cell.imageView.image = cache.object(forKey: photoObj)
-        } else {
+            cell.imageView.image = image
+        }
+    else {
             utilityQueue.async {
                 self.viewModel.loadImage(for: photoObj)
             }
