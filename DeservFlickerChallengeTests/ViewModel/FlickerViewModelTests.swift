@@ -52,8 +52,8 @@ class FlickrViewModelTests: XCTestCase {
         waitForExpectations(timeout: 3.0, handler: nil)
     }
     
-    func testDeleteAllEntries() {
-        viewModel?.deleteAllEntries()
+    func testResetAllEntries() {
+        viewModel?.resetAll()
         XCTAssertNil(viewModel?.searches.value.searchResults)
     }
 }

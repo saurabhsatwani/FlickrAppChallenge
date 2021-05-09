@@ -52,13 +52,7 @@ class FlickrViewModel {
             }
         }
     }
-    
-    func deleteAllEntries() {
-        self.searches.value = FlickrSearchResults(searchTerm: nil, searchResults: nil)
-        self.retrievedPhotos.value = []
-        self.onResetView?()
-    }
-    
+        
     func resetAll() {
         self.searches.value = FlickrSearchResults(searchTerm: nil, searchResults: nil)
         self.retrievedPhotos.value = []
